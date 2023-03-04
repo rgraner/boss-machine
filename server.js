@@ -22,6 +22,11 @@ app.use(bodyParser.json());
 const apiRouter = require('./server/api');
 app.use('/api', apiRouter);
 
+// get the front-end app
+app.use('/public', express.static('public'));
+app.get('/', (req, res, next) => { 
+  res.sendFile('index.html', { root: __dirname });
+});
 
 // This conditional is here for testing purposes:
 if (!module.parent) { 
