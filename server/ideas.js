@@ -7,6 +7,8 @@ const {
     deleteFromDatabasebyId, 
 } = require('./db');
 const ideasRouter = express.Router();
+const checkMillionDollarIdea = require('./checkMillionDollarIdea.js');
+
 
 // GET all ideas
 ideasRouter.get('/', (req, res) => {
@@ -25,14 +27,14 @@ ideasRouter.get('/:ideaId', (req, res) => {
   });
 
 // POST /api/ideas to create a new idea and save it to the database
-ideasRouter.post('/', (req, res) => {
+ideasRouter.post('/', checkMillionDollarIdea, (req, res) => {
   const newIdea = req.body;
   const idea = addToDatabase('ideas', newIdea);
   res.status(201).send(idea);
 });
 
 // PUT /api/ideas/:ideaId to update a single idea by id
-ideasRouter.put('/:ideaId', (req, res) => {
+ideasRouter.put('/:ideaId', checkMillionDollarIdea, (req, res) => {
     const ideaId = req.params.ideaId;
     const updatedIdea = req.body;
     const ideas = getAllFromDatabase('ideas');
@@ -63,5 +65,4 @@ ideasRouter.delete('/:ideaId', (req, res) => {
 })
 
 module.exports = ideasRouter;
-
 
