@@ -36,7 +36,6 @@ ideasRouter.post('/', checkMillionDollarIdea, (req, res) => {
 // PUT /api/ideas/:ideaId to update a single idea by id
 ideasRouter.put('/:ideaId', checkMillionDollarIdea, (req, res) => {
     const ideaId = req.params.ideaId;
-    
     const updatedIdea = req.body;
     const ideas = getAllFromDatabase('ideas');
   
@@ -47,32 +46,6 @@ ideasRouter.put('/:ideaId', checkMillionDollarIdea, (req, res) => {
       res.status(404).send();
       return;
     }
-    // Update the idea
-    const newIdea = { ...ideas[ideaIndex], ...updatedIdea };
-    updateInstanceInDatabase('ideas', newIdea);
-    res.status(200).send(newIdea);
-  });
-
-  ideasRouter.put('/:ideaId', checkMillionDollarIdea, (req, res) => {
-    const ideaId = req.params.ideaId;
-  
-    if (!Number.isInteger(Number(ideaId))) {
-      // Idea ID is not numeric
-      res.status(404).send();
-      return;
-    }
-  
-    const updatedIdea = req.body;
-    const ideas = getAllFromDatabase('ideas');
-  
-    // Find the idea to update
-    const ideaIndex = ideas.findIndex((idea) => idea.id === Number(ideaId));
-    if (ideaIndex === -1) {
-      // Idea not found
-      res.status(404).send();
-      return;
-    }
-  
     // Update the idea
     const newIdea = { ...ideas[ideaIndex], ...updatedIdea };
     updateInstanceInDatabase('ideas', newIdea);
