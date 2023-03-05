@@ -3,7 +3,8 @@ const {
     getAllFromDatabase, 
     addToDatabase,
     createMeeting,
-    deleteFromDatabasebyId, 
+    deleteFromDatabasebyId,
+    deleteAllFromDatabase, 
 } = require('./db');
 const meetingsRouter = express.Router();
 
@@ -20,16 +21,26 @@ meetingsRouter.post('/', (req, res) => {
   res.status(201).send(newMeeting);
 });
 
-// DELETE /api/meetings/:meetingId to delete a single meeting by id
+// DELETE /api/meetings/:meetingId to delete a single meeting by id (it is not being used).
 meetingsRouter.delete('/:meetingId', (req, res) => {
-    const meetingId = req.params.meetingId;
-    const success = deleteFromDatabasebyId('meetings', meetingId);
-    if (success) {
-        res.sendStatus(204);
-    } else {
-        res.sendStatus(404);
-    }
+  const meetingId = req.params.meetingId;
+  const success = deleteFromDatabasebyId('meetings', meetingId);
+  if (success) {
+      res.sendStatus(204);
+  } else {
+      res.sendStatus(404);
+  }
 
+})
+
+// DELETE /api/meetings/ to delete all meetings
+meetingsRouter.delete('/', (req, res) => {
+const success = deleteAllFromDatabase('meetings');
+if (success) {
+    res.sendStatus(204);
+} else {
+    res.sendStatus(404);
+}
 })
 
 module.exports = meetingsRouter;
